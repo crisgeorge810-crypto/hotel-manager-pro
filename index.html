@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#14283f">
+<title>Hotel Manager Pro</title>
+<style>
+:root {
+  --navy:#14283f;
+  --navy2:#203b56;
+  --gold:#c49a45;
+  --cream:#f6f3eb;
+  --white:#fff;
+  --text:#293746;
+  --muted:#87919a;
+  --green:#398568;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--cream);
+ color:var(--text);
+ font-family:Georgia,serif;
+}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+ width:245px;background:var(--navy);
+ color:white;padding:25px 17px;
+}
+.brand{
+ text-align:center;padding:10px 5px 28px;
+ border-bottom:1px solid #ffffff25;
+}
+.logo{
+ width:55px;height:55px;border:2px solid var(--gold);
+ border-radius:50%;margin:auto;
+ display:grid;place-items:center;
+ color:var(--gold);font-size:27px;
+}
+.brand h2{font-size:19px;letter-spacing:1px}
+.brand small{color:#d6b66e;letter-spacing:3px}
+.nav-title{color:#aebbc7;font:11px Arial;margin:28px 10px 12px}
+.nav button{
+ display:block;width:100%;text-align:left;
+ padding:13px 12px;margin:4px 0;
+ color:#dbe3eb;background:transparent;
+ border:0;border-radius:5px;
+ font:14px Arial;cursor:pointer;
+}
+.nav button:hover,.nav button.active{
+ background:#ffffff18;color:#e4c276;
+ border-left:3px solid var(--gold);
+}
+.main{flex:1;min-width:0}
+.topbar{
+ background:white;padding:17px 28px;
+ display:flex;justify-content:space-between;
+ align-items:center;border-bottom:1px solid #e6e1d7;
+}
+.topbar h3{margin:0;color:var(--navy);font-size:20px}
+.topbar small{color:var(--muted);font:12px Arial}
+.user{font:13px Arial;color:var(--navy)}
+.content{padding:28px}
+.welcome h1{font-size:27px;color:var(--navy);margin:0 0 7px}
+.welcome p{color:var(--muted);font:14px Arial}
+.stats{
+ display:grid;grid-template-columns:repeat(4,1fr);
+ gap:16px;margin:25px 0;
+}
+.stat{
+ background:white;padding:20px;
+ border:1px solid #e8e2d6;border-radius:7px;
+}
+.stat span{font:12px Arial;color:var(--muted)}
+.stat strong{display:block;font-size:26px;color:var(--navy);margin:12px 0 5px}
+.stat small{color:var(--green);font:12px Arial}
+.panel{
+ background:white;border:1px solid #e8e2d6;
+ border-radius:7px;padding:22px;margin-bottom:20px;
+}
+.panel h3{color:var(--navy);margin:0 0 18px}
+.quick{
+ display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+}
+.quick button{
+ padding:17px 8px;background:var(--cream);
+ border:1px solid #e8e2d6;border-radius:5px;
+ color:var(--navy);cursor:pointer;font:13px Arial;
+}
+.quick button:hover{border-color:var(--gold)}
+table{width:100%;border-collapse:collapse;font:13px Arial}
+th,td{text-align:left;padding:13px 9px;border-bottom:1px solid #eee}
+th{color:var(--muted);font-size:11px}
+.status{color:var(--green);font-weight:bold}
+.empty{color:var(--muted);text-align:center;padding:25px}
+.page{display:none}
+.page.active{display:block}
+input,select{
+ padding:11px;border:1px solid #ddd;border-radius:4px;
+ width:100%;margin:7px 0 15px;
+}
+.primary{
+ background:var(--navy);color:white;border:0;
+ padding:12px 20px;border-radius:4px;cursor:pointer;
+}
+@media(max-width:850px){
+ .sidebar{width:185px}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .quick{grid-template-columns:repeat(2,1fr)}
+ .content{padding:17px}
+}
+@media(max-width:560px){
+ .layout{display:block}
+ .sidebar{width:100%;padding:12px}
+ .brand{padding:5px;border:0}
+ .brand h2{margin:5px}
+ .logo{width:39px;height:39px;font-size:20px}
+ .nav{display:flex;overflow-x:auto;gap:5px}
+ .nav-title{display:none}
+ .nav button{white-space:nowrap;width:auto;padding:11px}
+ .topbar{padding:13px}
+ .stats{gap:9px}
+ .stat{padding:13px}
+ .stat strong{font-size:21px}
+ .content{padding:13px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+ <div class="brand">
+  <div class="logo">♛</div>
+  <h2 id="hotelName">HOTEL MANAGER</h2>
+  <small>PROFESSIONAL</small>
+ </div>
+ <div class="nav-title">MAIN MENU</div>
+ <nav class="nav">
+  <button class="active" onclick="showPage('dashboard',this)">▦ Dashboard</button>
+  <button onclick="showPage('rooms',this)">▤ Rooms</button>
+  <button onclick="showPage('bookings',this)">▣ Reservations</button>
+  <button onclick="showPage('guests',this)">♙ Guests</button>
+  <button onclick="showPage('billing',this)">▧ Billing</button>
+  <button onclick="showPage('reports',this)">▥ Reports</button>
+  <button onclick="showPage('settings',this)">⚙ Hotel Setup</button>
+ </nav>
+</aside>
+
+<main class="main">
+ <header class="topbar">
+  <div>
+   <h3 id="pageTitle">Hotel Overview</h3>
+   <small>Hotel Management System</small>
+  </div>
+  <div class="user">Administrator</div>
+ </header>
+
+ <div class="content">
+  <section id="dashboard" class="page active">
+   <div class="welcome">
+    <h1>Welcome to your Hotel</h1>
+    <p>Here is your hotel's daily operational overview.</p>
+   </div>
+   <div class="stats">
+    <div class="stat"><span>TOTAL ROOMS</span><strong id="roomCount">0</strong><small>Registered rooms</small></div>
+    <div class="stat"><span>OCCUPIED ROOMS</span><strong>0</strong><small>Currently occupied</small></div>
+    <div class="stat"><span>TODAY'S BOOKINGS</span><strong>0</strong><small>New reservations</small></div>
+    <div class="stat"><span>TODAY'S REVENUE</span><strong>₦0</strong><small>Recorded payments</small></div>
+   </div>
+   <div class="panel">
+    <h3>Quick Actions</h3>
+    <div class="quick">
+     <button onclick="showPage('bookings')">＋ New Reservation</button>
+     <button onclick="showPage('guests')">＋ Register Guest</button>
+     <button onclick="showPage('rooms')">▤ Manage Rooms</button>
+     <button onclick="showPage('billing')">₦ Guest Billing</button>
+    </div>
+   </div>
+   <div class="panel">
+    <h3>Recent Reservations</h3>
+    <div class="empty">No reservations recorded yet.</div>
+   </div>
+  </section>
+
+  <section id="rooms" class="page">
+   <div class="panel">
+    <h3>Room Management</h3>
+    <input id="roomNumber" placeholder="Room number">
+    <select id="roomType">
+     <option>Standard</option><option>Deluxe</option>
+     <option>Executive</option><option>Suite</option>
+    </select>
+    <input id="roomPrice" type="number" placeholder="Room price per night (₦)">
+    <button class="primary" onclick="addRoom()">Add Room</button>
+   </div>
+   <div class="panel">
+    <h3>Registered Rooms</h3>
+    <table><thead><tr><th>ROOM</th><th>TYPE</th><th>PRICE</th></tr></thead><tbody id="roomList"></tbody></table>
+   </div>
+  </section>
+
+  <section id="bookings" class="page">
+   <div class="panel">
+    <h3>New Reservation</h3>
+    <input id="bookingGuest" placeholder="Guest full name">
+    <input id="bookingRoom" placeholder="Room number">
+    <label>Arrival date</label><input id="arrival" type="date">
+    <label>Departure date</label><input id="departure" type="date">
+    <button class="primary" onclick="addBooking()">Save Reservation</button>
+   </div>
+   <div class="panel"><h3>Reservations</h3><div id="bookingList" class="empty">No reservations yet.</div></div>
+  </section>
+
+  <section id="guests" class="page">
+   <div class="panel">
+    <h3>Guest Registration</h3>
+    <input id="guestName" placeholder="Full name">
+    <input id="guestPhone" placeholder="Phone number">
+    <input id="guestEmail" placeholder="Email address">
+    <button class="primary" onclick="addGuest()">Register Guest</button>
+   </div>
+   <div class="panel"><h3>Guest Register</h3><div id="guestList" class="empty">No guests registered.</div></div>
+  </section>
+
+  <section id="billing" class="page">
+   <div class="panel">
+    <h3>Guest Billing</h3>
+    <input id="billGuest" placeholder="Guest name">
+    <input id="billAmount" type="number" placeholder="Amount paid (₦)">
+    <button class="primary" onclick="addPayment()">Record Payment</button>
+   </div>
+   <div class="panel"><h3>Payment Records</h3><div id="paymentList" class="empty">No payments recorded.</div></div>
+  </section>
+
+  <section id="reports" class="page">
+   <div class="panel"><h3>Hotel Reports</h3><p>Room and payment records will appear here as the hotel operates.</p></div>
+  </section>
+
+  <section id="settings" class="page">
+   <div class="panel">
+    <h3>Hotel Branding</h3>
+    <label>Hotel name</label>
+    <input id="newHotelName" placeholder="Enter your hotel name">
+    <label>Hotel logo</label>
+    <input id="hotelLogo" type="file" accept="image/*">
+    <button class="primary" onclick="saveHotel()">Save Hotel Identity</button>
+   </div>
+  </section>
+ </div>
+</main>
+</div>
+
+<script>
+function showPage(id,button){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+ if(button)button.classList.add('active');
+ document.getElementById('pageTitle').textContent=
+ id.charAt(0).toUpperCase()+id.slice(1);
+}
+let rooms=JSON.parse(localStorage.getItem('hm_rooms')||'[]');
+let guests=JSON.parse(localStorage.getItem('hm_guests')||'[]');
+let bookings=JSON.parse(localStorage.getItem('hm_bookings')||'[]');
+let payments=JSON.parse(localStorage.getItem('hm_payments')||'[]');
+function store(key,data){localStorage.setItem('hm_'+key,JSON.stringify(data))}
+function addRoom(){
+ let n=roomNumber.value.trim(),t=roomType.value,p=Number(roomPrice.value);
+ if(!n||!p)return alert('Enter room number and price');
+ if(rooms.some(r=>r.n===n))return alert('Room already exists');
+ rooms.push({n,t,p});store('rooms',rooms);render();
+ roomNumber.value='';roomPrice.value='';
+}
+function addGuest(){
+ let n=guestName.value.trim();
+ if(!n)return alert('Enter guest name');
+ guests.push({n,phone:guestPhone.value,email:guestEmail.value});
+ store('guests',guests);render();
+ guestName.value='';guestPhone.value='';guestEmail.value='';
+}
+function addBooking(){
+ let n=bookingGuest.value.trim(),r=bookingRoom.value.trim();
+ if(!n||!r||!arrival.value||!departure.value)return alert('Complete all booking details');
+ if(new Date(departure.value)<=new Date(arrival.value))return alert('Departure must be after arrival');
+ bookings.push({n,r,a:arrival.value,d:departure.value});
+ store('bookings',bookings);render();
+ bookingGuest.value='';bookingRoom.value='';
+}
+function addPayment(){
+ let n=billGuest.value.trim(),a=Number(billAmount.value);
+ if(!n||!a||a<1)return alert('Enter guest and valid amount');
+ payments.push({n,a,date:new Date().toLocaleDateString()});
+ store('payments',payments);render();
+ billGuest.value='';billAmount.value='';
+}
+function saveHotel(){
+ let n=newHotelName.value.trim();
+ if(n){localStorage.setItem('hm_hotel',n);hotelName.textContent=n.toUpperCase();}
+ let f=hotelLogo.files[0];
+ if(f){
+  let reader=new FileReader();
+  reader.onload=()=>{localStorage.setItem('hm_logo',reader.result);alert('Hotel identity saved');};
+  reader.readAsDataURL(f);
+ }else alert('Hotel name saved');
+}
+function render(){
+ roomCount.textContent=rooms.length;
+ roomList.innerHTML=rooms.map(r=>`<tr><td>${safe(r.n)}</td><td>${safe(r.t)}</td><td>₦${r.p.toLocaleString()}</td></tr>`).join('');
+ guestList.innerHTML=guests.length?guests.map(g=>`<p>${safe(g.n)} — ${safe(g.phone)}</p>`).join(''):'No guests registered.';
+ bookingList.innerHTML=bookings.length?bookings.map(b=>`<p>${safe(b.n)} | Room ${safe(b.r)} | ${safe(b.a)} to ${safe(b.d)}</p>`).join(''):'No reservations yet.';
+ paymentList.innerHTML=payments.length?payments.map(p=>`<p>${safe(p.n)} — ₦${p.a.toLocaleString()} — ${safe(p.date)}</p>`).join(''):'No payments recorded.';
+}
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+let savedName=localStorage.getItem('hm_hotel');
+if(savedName)hotelName.textContent=savedName.toUpperCase();
+render();
+</script>
+</body>
+</html>
