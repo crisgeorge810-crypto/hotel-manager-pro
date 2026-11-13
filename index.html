@@ -1,320 +1,52 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#14283f">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071d3b"><meta name="description" content="Professional hotel management software">
+<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./hotel-icon-192.png">
 <title>Hotel Manager Pro</title>
 <style>
-:root {
-  --navy:#14283f;
-  --navy2:#203b56;
-  --gold:#c49a45;
-  --cream:#f6f3eb;
-  --white:#fff;
-  --text:#293746;
-  --muted:#87919a;
-  --green:#398568;
-}
-*{box-sizing:border-box}
-body{
- margin:0;background:var(--cream);
- color:var(--text);
- font-family:Georgia,serif;
-}
-.layout{display:flex;min-height:100vh}
-.sidebar{
- width:245px;background:var(--navy);
- color:white;padding:25px 17px;
-}
-.brand{
- text-align:center;padding:10px 5px 28px;
- border-bottom:1px solid #ffffff25;
-}
-.logo{
- width:55px;height:55px;border:2px solid var(--gold);
- border-radius:50%;margin:auto;
- display:grid;place-items:center;
- color:var(--gold);font-size:27px;
-}
-.brand h2{font-size:19px;letter-spacing:1px}
-.brand small{color:#d6b66e;letter-spacing:3px}
-.nav-title{color:#aebbc7;font:11px Arial;margin:28px 10px 12px}
-.nav button{
- display:block;width:100%;text-align:left;
- padding:13px 12px;margin:4px 0;
- color:#dbe3eb;background:transparent;
- border:0;border-radius:5px;
- font:14px Arial;cursor:pointer;
-}
-.nav button:hover,.nav button.active{
- background:#ffffff18;color:#e4c276;
- border-left:3px solid var(--gold);
-}
-.main{flex:1;min-width:0}
-.topbar{
- background:white;padding:17px 28px;
- display:flex;justify-content:space-between;
- align-items:center;border-bottom:1px solid #e6e1d7;
-}
-.topbar h3{margin:0;color:var(--navy);font-size:20px}
-.topbar small{color:var(--muted);font:12px Arial}
-.user{font:13px Arial;color:var(--navy)}
-.content{padding:28px}
-.welcome h1{font-size:27px;color:var(--navy);margin:0 0 7px}
-.welcome p{color:var(--muted);font:14px Arial}
-.stats{
- display:grid;grid-template-columns:repeat(4,1fr);
- gap:16px;margin:25px 0;
-}
-.stat{
- background:white;padding:20px;
- border:1px solid #e8e2d6;border-radius:7px;
-}
-.stat span{font:12px Arial;color:var(--muted)}
-.stat strong{display:block;font-size:26px;color:var(--navy);margin:12px 0 5px}
-.stat small{color:var(--green);font:12px Arial}
-.panel{
- background:white;border:1px solid #e8e2d6;
- border-radius:7px;padding:22px;margin-bottom:20px;
-}
-.panel h3{color:var(--navy);margin:0 0 18px}
-.quick{
- display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
-}
-.quick button{
- padding:17px 8px;background:var(--cream);
- border:1px solid #e8e2d6;border-radius:5px;
- color:var(--navy);cursor:pointer;font:13px Arial;
-}
-.quick button:hover{border-color:var(--gold)}
-table{width:100%;border-collapse:collapse;font:13px Arial}
-th,td{text-align:left;padding:13px 9px;border-bottom:1px solid #eee}
-th{color:var(--muted);font-size:11px}
-.status{color:var(--green);font-weight:bold}
-.empty{color:var(--muted);text-align:center;padding:25px}
-.page{display:none}
-.page.active{display:block}
-input,select{
- padding:11px;border:1px solid #ddd;border-radius:4px;
- width:100%;margin:7px 0 15px;
-}
-.primary{
- background:var(--navy);color:white;border:0;
- padding:12px 20px;border-radius:4px;cursor:pointer;
-}
-@media(max-width:850px){
- .sidebar{width:185px}
- .stats{grid-template-columns:repeat(2,1fr)}
- .quick{grid-template-columns:repeat(2,1fr)}
- .content{padding:17px}
-}
-@media(max-width:560px){
- .layout{display:block}
- .sidebar{width:100%;padding:12px}
- .brand{padding:5px;border:0}
- .brand h2{margin:5px}
- .logo{width:39px;height:39px;font-size:20px}
- .nav{display:flex;overflow-x:auto;gap:5px}
- .nav-title{display:none}
- .nav button{white-space:nowrap;width:auto;padding:11px}
- .topbar{padding:13px}
- .stats{gap:9px}
- .stat{padding:13px}
- .stat strong{font-size:21px}
- .content{padding:13px}
-}
-</style>
-</head>
-<body>
-<div class="layout">
-<aside class="sidebar">
- <div class="brand">
-  <div class="logo">♛</div>
-  <h2 id="hotelName">HOTEL MANAGER</h2>
-  <small>PROFESSIONAL</small>
- </div>
- <div class="nav-title">MAIN MENU</div>
- <nav class="nav">
-  <button class="active" onclick="showPage('dashboard',this)">▦ Dashboard</button>
-  <button onclick="showPage('rooms',this)">▤ Rooms</button>
-  <button onclick="showPage('bookings',this)">▣ Reservations</button>
-  <button onclick="showPage('guests',this)">♙ Guests</button>
-  <button onclick="showPage('billing',this)">▧ Billing</button>
-  <button onclick="showPage('reports',this)">▥ Reports</button>
-  <button onclick="showPage('settings',this)">⚙ Hotel Setup</button>
- </nav>
-</aside>
-
-<main class="main">
- <header class="topbar">
-  <div>
-   <h3 id="pageTitle">Hotel Overview</h3>
-   <small>Hotel Management System</small>
-  </div>
-  <div class="user">Administrator</div>
- </header>
-
- <div class="content">
-  <section id="dashboard" class="page active">
-   <div class="welcome">
-    <h1>Welcome to your Hotel</h1>
-    <p>Here is your hotel's daily operational overview.</p>
-   </div>
-   <div class="stats">
-    <div class="stat"><span>TOTAL ROOMS</span><strong id="roomCount">0</strong><small>Registered rooms</small></div>
-    <div class="stat"><span>OCCUPIED ROOMS</span><strong>0</strong><small>Currently occupied</small></div>
-    <div class="stat"><span>TODAY'S BOOKINGS</span><strong>0</strong><small>New reservations</small></div>
-    <div class="stat"><span>TODAY'S REVENUE</span><strong>₦0</strong><small>Recorded payments</small></div>
-   </div>
-   <div class="panel">
-    <h3>Quick Actions</h3>
-    <div class="quick">
-     <button onclick="showPage('bookings')">＋ New Reservation</button>
-     <button onclick="showPage('guests')">＋ Register Guest</button>
-     <button onclick="showPage('rooms')">▤ Manage Rooms</button>
-     <button onclick="showPage('billing')">₦ Guest Billing</button>
-    </div>
-   </div>
-   <div class="panel">
-    <h3>Recent Reservations</h3>
-    <div class="empty">No reservations recorded yet.</div>
-   </div>
-  </section>
-
-  <section id="rooms" class="page">
-   <div class="panel">
-    <h3>Room Management</h3>
-    <input id="roomNumber" placeholder="Room number">
-    <select id="roomType">
-     <option>Standard</option><option>Deluxe</option>
-     <option>Executive</option><option>Suite</option>
-    </select>
-    <input id="roomPrice" type="number" placeholder="Room price per night (₦)">
-    <button class="primary" onclick="addRoom()">Add Room</button>
-   </div>
-   <div class="panel">
-    <h3>Registered Rooms</h3>
-    <table><thead><tr><th>ROOM</th><th>TYPE</th><th>PRICE</th></tr></thead><tbody id="roomList"></tbody></table>
-   </div>
-  </section>
-
-  <section id="bookings" class="page">
-   <div class="panel">
-    <h3>New Reservation</h3>
-    <input id="bookingGuest" placeholder="Guest full name">
-    <input id="bookingRoom" placeholder="Room number">
-    <label>Arrival date</label><input id="arrival" type="date">
-    <label>Departure date</label><input id="departure" type="date">
-    <button class="primary" onclick="addBooking()">Save Reservation</button>
-   </div>
-   <div class="panel"><h3>Reservations</h3><div id="bookingList" class="empty">No reservations yet.</div></div>
-  </section>
-
-  <section id="guests" class="page">
-   <div class="panel">
-    <h3>Guest Registration</h3>
-    <input id="guestName" placeholder="Full name">
-    <input id="guestPhone" placeholder="Phone number">
-    <input id="guestEmail" placeholder="Email address">
-    <button class="primary" onclick="addGuest()">Register Guest</button>
-   </div>
-   <div class="panel"><h3>Guest Register</h3><div id="guestList" class="empty">No guests registered.</div></div>
-  </section>
-
-  <section id="billing" class="page">
-   <div class="panel">
-    <h3>Guest Billing</h3>
-    <input id="billGuest" placeholder="Guest name">
-    <input id="billAmount" type="number" placeholder="Amount paid (₦)">
-    <button class="primary" onclick="addPayment()">Record Payment</button>
-   </div>
-   <div class="panel"><h3>Payment Records</h3><div id="paymentList" class="empty">No payments recorded.</div></div>
-  </section>
-
-  <section id="reports" class="page">
-   <div class="panel"><h3>Hotel Reports</h3><p>Room and payment records will appear here as the hotel operates.</p></div>
-  </section>
-
-  <section id="settings" class="page">
-   <div class="panel">
-    <h3>Hotel Branding</h3>
-    <label>Hotel name</label>
-    <input id="newHotelName" placeholder="Enter your hotel name">
-    <label>Hotel logo</label>
-    <input id="hotelLogo" type="file" accept="image/*">
-    <button class="primary" onclick="saveHotel()">Save Hotel Identity</button>
-   </div>
-  </section>
- </div>
-</main>
-</div>
-
+:root{--navy:#071d3b;--navy2:#102e54;--gold:#d9a441;--gold2:#f1c66b;--cream:#f6f1e7;--paper:#fffdf8;--ink:#17243a;--muted:#697487;--line:#e8dcc8;--green:#187746;--red:#b33b36;--shadow:0 8px 24px #10233a12}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.45 Inter,Segoe UI,Arial,sans-serif}.app{min-height:100vh;display:grid;grid-template-columns:245px 1fr}.sidebar{background:linear-gradient(180deg,#061a35,#102d50);color:#fff;padding:20px 14px;display:flex;flex-direction:column}.brand{text-align:center;padding:8px 4px 22px;border-bottom:1px solid #ffffff25}.brand img{width:92px;height:92px;object-fit:cover;border-radius:22px}.brand h2{font: bold 21px Georgia,serif;margin:9px 0 0}.brand small{color:#f0c66b}.nav{display:grid;gap:5px;margin-top:18px}.nav button{border:0;background:transparent;color:#f7f4ee;text-align:left;padding:12px 13px;border-radius:9px;font-size:15px;cursor:pointer}.nav button.active,.nav button:hover{background:linear-gradient(90deg,var(--gold),#f2ca78);color:#10223d;font-weight:700}.side-note{margin-top:auto;color:#c9d2df;font-size:11px;padding:14px 8px}.main{min-width:0}.topbar{height:72px;background:var(--navy);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 28px;border-bottom:3px solid var(--gold)}.topbar h1{font: bold 25px Georgia,serif;margin:0}.topbar span{color:#f1c66b;font-size:13px}.content{padding:24px;max-width:1500px;margin:auto}.hero{background:linear-gradient(110deg,#071d3b 0%,#143c68 60%,#0b2341 100%);color:white;border-radius:13px;padding:28px 30px;margin-bottom:20px;position:relative;overflow:hidden;box-shadow:var(--shadow)}.hero:after{content:'♛';position:absolute;right:35px;top:-22px;font:180px Georgia;color:#d9a44122}.hero h2{font: bold 28px Georgia,serif;margin:0 0 7px}.hero p{margin:0;color:#e2e8f1}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:18px 0}.stat,.panel{background:var(--paper);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}.stat{padding:17px}.stat label{display:block;color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase}.stat strong{display:block;font: bold 28px Georgia,serif;color:var(--navy);margin-top:7px}.stat small{color:var(--muted)}.grid2{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}.panel{padding:18px;margin-bottom:16px;min-width:0}.panel h3{font: bold 21px Georgia,serif;margin:0 0 14px;color:var(--navy)}.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.action{background:var(--navy2);color:#fff;border:1px solid #254a72;border-radius:9px;padding:15px 8px;cursor:pointer;font-weight:650}.action b{display:block;color:var(--gold2);font-size:22px;margin-bottom:5px}.status{background:#e8f4e9;color:var(--green);padding:10px;border-radius:8px;font-weight:700}.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}.btn{border:0;background:var(--navy);color:white;padding:10px 15px;border-radius:8px;font-weight:650;cursor:pointer}.btn.gold{background:var(--gold);color:#17243a}.btn.light{background:#eee6d8;color:var(--navy)}.btn.danger{background:#a83b36}.field{display:grid;gap:5px;margin-bottom:12px}.field label{font-size:12px;color:var(--muted);font-weight:700}.field input,.field select,.field textarea,input.search{width:100%;border:1px solid #d9cfbf;border-radius:8px;padding:10px;background:white;color:var(--ink);font:inherit;min-width:0}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:560px}th,td{text-align:left;padding:11px 10px;border-bottom:1px solid #eee5d8;font-size:13px}th{color:#5d6675;background:#f8f4ec;font-size:11px;text-transform:uppercase}.pill{display:inline-block;padding:4px 8px;border-radius:20px;background:#e8f4e9;color:var(--green);font-size:11px;font-weight:700}.muted{color:var(--muted)}.empty{padding:22px;text-align:center;color:var(--muted)}.hidden{display:none!important}.section-title{font: bold 27px Georgia,serif;color:var(--navy);margin:0 0 16px}.foot{font-size:11px;color:var(--muted);text-align:center;padding:15px}.modal{position:fixed;inset:0;background:#06172dcc;display:grid;place-items:center;padding:15px;z-index:5}.dialog{background:var(--paper);border-radius:14px;padding:20px;width:min(560px,100%);max-height:90vh;overflow:auto}.dialog h3{font: bold 23px Georgia,serif;margin:0 0 15px}.rowbtn{display:flex;gap:7px;flex-wrap:wrap}.logo-preview{width:82px;height:82px;object-fit:cover;border-radius:14px;border:2px solid var(--gold)}
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{padding:10px;display:block}.brand{display:flex;align-items:center;gap:10px;text-align:left;padding:4px 8px 10px}.brand img{width:46px;height:46px;border-radius:10px}.brand h2{font-size:17px}.brand small{display:block}.nav{display:flex;overflow:auto;margin:10px 0 0;padding-bottom:3px}.nav button{white-space:nowrap;padding:9px 12px}.side-note{display:none}.topbar{height:58px;padding:0 16px}.topbar h1{font-size:20px}.content{padding:15px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}.actions{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:420px){.stats{gap:9px}.stat{padding:12px}.stat strong{font-size:23px}.hero{padding:20px}.hero h2{font-size:23px}.formgrid{grid-template-columns:1fr}.content{padding:11px}}
+</style></head>
+<body><div class="app"><aside class="sidebar"><div class="brand"><img id="brandIcon" src="./hotel-icon-192.png" alt="Hotel Manager Pro icon"><div><h2 id="brandName">Hotel Manager Pro</h2><small>Professional Hotel Software</small></div></div><nav class="nav" id="nav"><button class="active" data-page="dashboard">⌂ &nbsp; Dashboard</button><button data-page="rooms">▣ &nbsp; Rooms</button><button data-page="reservations">▤ &nbsp; Reservations</button><button data-page="guests">♙ &nbsp; Guests</button><button data-page="billing">▤ &nbsp; Billing & Payments</button><button data-page="expenses">₦ &nbsp; Expenses</button><button data-page="staff">♧ &nbsp; Staff</button><button data-page="reports">▥ &nbsp; Reports</button><button data-page="setup">⚙ &nbsp; Hotel Setup</button><button data-page="backup">◈ &nbsp; Backup & Restore</button></nav><div class="side-note">Hotel Manager Pro · Local edition</div></aside><main class="main"><header class="topbar"><h1 id="pageHeading">Hotel Overview</h1><span id="hotelHeader">Your Hotel</span></header><div class="content" id="content"></div><div class="foot">Hotel Manager Pro · Data is stored on this device</div></main></div><div id="modalRoot"></div>
 <script>
-function showPage(id,button){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
- if(button)button.classList.add('active');
- document.getElementById('pageTitle').textContent=
- id.charAt(0).toUpperCase()+id.slice(1);
-}
-let rooms=JSON.parse(localStorage.getItem('hm_rooms')||'[]');
-let guests=JSON.parse(localStorage.getItem('hm_guests')||'[]');
-let bookings=JSON.parse(localStorage.getItem('hm_bookings')||'[]');
-let payments=JSON.parse(localStorage.getItem('hm_payments')||'[]');
-function store(key,data){localStorage.setItem('hm_'+key,JSON.stringify(data))}
-function addRoom(){
- let n=roomNumber.value.trim(),t=roomType.value,p=Number(roomPrice.value);
- if(!n||!p)return alert('Enter room number and price');
- if(rooms.some(r=>r.n===n))return alert('Room already exists');
- rooms.push({n,t,p});store('rooms',rooms);render();
- roomNumber.value='';roomPrice.value='';
-}
-function addGuest(){
- let n=guestName.value.trim();
- if(!n)return alert('Enter guest name');
- guests.push({n,phone:guestPhone.value,email:guestEmail.value});
- store('guests',guests);render();
- guestName.value='';guestPhone.value='';guestEmail.value='';
-}
-function addBooking(){
- let n=bookingGuest.value.trim(),r=bookingRoom.value.trim();
- if(!n||!r||!arrival.value||!departure.value)return alert('Complete all booking details');
- if(new Date(departure.value)<=new Date(arrival.value))return alert('Departure must be after arrival');
- bookings.push({n,r,a:arrival.value,d:departure.value});
- store('bookings',bookings);render();
- bookingGuest.value='';bookingRoom.value='';
-}
-function addPayment(){
- let n=billGuest.value.trim(),a=Number(billAmount.value);
- if(!n||!a||a<1)return alert('Enter guest and valid amount');
- payments.push({n,a,date:new Date().toLocaleDateString()});
- store('payments',payments);render();
- billGuest.value='';billAmount.value='';
-}
-function saveHotel(){
- let n=newHotelName.value.trim();
- if(n){localStorage.setItem('hm_hotel',n);hotelName.textContent=n.toUpperCase();}
- let f=hotelLogo.files[0];
- if(f){
-  let reader=new FileReader();
-  reader.onload=()=>{localStorage.setItem('hm_logo',reader.result);alert('Hotel identity saved');};
-  reader.readAsDataURL(f);
- }else alert('Hotel name saved');
-}
-function render(){
- roomCount.textContent=rooms.length;
- roomList.innerHTML=rooms.map(r=>`<tr><td>${safe(r.n)}</td><td>${safe(r.t)}</td><td>₦${r.p.toLocaleString()}</td></tr>`).join('');
- guestList.innerHTML=guests.length?guests.map(g=>`<p>${safe(g.n)} — ${safe(g.phone)}</p>`).join(''):'No guests registered.';
- bookingList.innerHTML=bookings.length?bookings.map(b=>`<p>${safe(b.n)} | Room ${safe(b.r)} | ${safe(b.a)} to ${safe(b.d)}</p>`).join(''):'No reservations yet.';
- paymentList.innerHTML=payments.length?payments.map(p=>`<p>${safe(p.n)} — ₦${p.a.toLocaleString()} — ${safe(p.date)}</p>`).join(''):'No payments recorded.';
-}
-function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-let savedName=localStorage.getItem('hm_hotel');
-if(savedName)hotelName.textContent=savedName.toUpperCase();
-render();
-</script>
-</body>
-</html>
+const KEY='hotelManagerProDataV2';
+const blank=()=>({hotel:{name:'Your Hotel',currency:'₦',address:'',phone:'',email:'',logo:''},rooms:[],guests:[],reservations:[],payments:[],expenses:[],staff:[]});
+let db;try{db={...blank(),...JSON.parse(localStorage.getItem(KEY)||'{}')};}catch(e){db=blank()}
+for(const k of ['rooms','guests','reservations','payments','expenses','staff'])if(!Array.isArray(db[k]))db[k]=[];
+function save(){localStorage.setItem(KEY,JSON.stringify(db));document.getElementById('hotelHeader').textContent=db.hotel.name||'Your Hotel';document.getElementById('brandName').textContent=db.hotel.name||'Hotel Manager Pro';document.getElementById('brandIcon').src=db.hotel.logo||'./hotel-icon-192.png';}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function money(v){return (db.hotel.currency||'₦')+Number(v||0).toLocaleString('en-NG',{maximumFractionDigits:2})}
+function date(v){return v?new Date(v+'T00:00:00').toLocaleDateString():''}
+function page(p){document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p));document.getElementById('pageHeading').textContent=({dashboard:'Hotel Overview',rooms:'Room Management',reservations:'Reservations',guests:'Guest Records',billing:'Billing & Payments',expenses:'Expenses',staff:'Staff Management',reports:'Hotel Reports',setup:'Hotel Setup',backup:'Backup & Restore'})[p]||'Hotel Manager Pro';render(p)}
+document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('button[data-page]');if(b)page(b.dataset.page)});
+function table(headers,rows){return `<div class="tablewrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows||''}</tbody></table></div>`}
+function empty(msg){return `<div class="empty">${msg}</div>`}
+function showModal(title,fields,onSave){const root=document.getElementById('modalRoot');root.innerHTML=`<div class="modal"><div class="dialog"><h3>${title}</h3><form id="entryForm">${fields}<div class="rowbtn"><button class="btn" type="submit">Save</button><button class="btn light" type="button" id="cancelModal">Cancel</button></div></form></div></div>`;root.querySelector('#cancelModal').onclick=()=>root.innerHTML='';root.querySelector('form').onsubmit=e=>{e.preventDefault();const fd=new FormData(e.target);onSave(Object.fromEntries(fd.entries()));root.innerHTML='';save();const active=document.querySelector('.nav button.active')?.dataset.page||'dashboard';page(active)}}
+const f=(label,name,type='text',extra='')=>`<div class="field"><label>${label}</label><input name="${name}" type="${type}" ${extra} required></div>`;
+function addRoom(){showModal('Add a Room',f('Room number','number')+`<div class="field"><label>Room type</label><select name="type"><option>Standard</option><option>Deluxe</option><option>Executive</option><option>Suite</option><option>Family</option></select></div>`+f('Rate per night','rate','number','min="0"')+`<div class="field"><label>Status</label><select name="status"><option>Available</option><option>Maintenance</option></select></div>`,v=>db.rooms.push({id:Date.now(),...v,rate:Number(v.rate)}))}
+function addGuest(){showModal('Register Guest',f('Full name','name')+f('Phone number','phone')+f('Email address','email','email')+f('Address','address'),v=>db.guests.push({id:Date.now(),...v}))}
+function addReservation(){const roomOpts=db.rooms.map(r=>`<option value="${esc(r.id)}">${esc(r.number)} · ${esc(r.type)} (${money(r.rate)})</option>`).join('');const guestOpts=db.guests.map(g=>`<option value="${esc(g.id)}">${esc(g.name)}</option>`).join('');showModal('New Reservation',`<div class="field"><label>Guest</label><select name="guestId" required>${guestOpts}</select></div><div class="field"><label>Room</label><select name="roomId" required>${roomOpts}</select></div>`+f('Check-in','checkin','date')+f('Check-out','checkout','date')+f('Number of guests','people','number','min="1" value="1"'),v=>{if(new Date(v.checkout)<=new Date(v.checkin)){alert('Check-out must be after check-in.');return}const overlap=db.reservations.some(r=>String(r.roomId)===v.roomId&&r.status!=='Cancelled'&&v.checkin<r.checkout&&v.checkout>r.checkin);if(overlap){alert('This room is already reserved for those dates.');return}const room=db.rooms.find(r=>r.id==v.roomId);db.reservations.push({id:Date.now(),...v,total:Math.max(1,Math.ceil((new Date(v.checkout)-new Date(v.checkin))/86400000))*Number(room?.rate||0),status:'Confirmed'})})}
+function addPayment(){const opts=db.reservations.map(r=>{const g=db.guests.find(x=>x.id==r.guestId);return `<option value="${r.id}">${esc(g?.name||'Guest')} · ${date(r.checkin)}</option>`}).join('');showModal('Record Payment',`<div class="field"><label>Reservation</label><select name="reservationId">${opts}</select></div>`+f('Amount','amount','number','min="0"')+`<div class="field"><label>Method</label><select name="method"><option>Cash</option><option>Bank transfer</option><option>Card</option><option>Other</option></select></div>`+f('Date','date','date'),v=>db.payments.push({id:Date.now(),...v,amount:Number(v.amount)}))}
+function addExpense(){showModal('Record Expense',f('Description','description')+f('Category','category')+f('Amount','amount','number','min="0"')+f('Date','date','date'),v=>db.expenses.push({id:Date.now(),...v,amount:Number(v.amount)}))}
+function addStaff(){showModal('Add Staff Member',f('Full name','name')+f('Role','role')+f('Phone','phone')+f('Email','email','email'),v=>db.staff.push({id:Date.now(),...v}))}
+function render(p){const el=document.getElementById('content');if(p==='dashboard'){const today=new Date().toISOString().slice(0,10),occupied=db.reservations.filter(r=>r.status!=='Cancelled'&&r.checkin<=today&&r.checkout>today).length,revenue=db.payments.reduce((s,x)=>s+Number(x.amount),0);el.innerHTML=`<section class="hero"><h2>Welcome to ${esc(db.hotel.name||'Your Hotel')}</h2><p>Your daily hotel operations, organised in one place.</p></section><div class="stats"><div class="stat"><label>Total rooms</label><strong>${db.rooms.length}</strong><small>Registered rooms</small></div><div class="stat"><label>Occupied today</label><strong>${occupied}</strong><small>Based on active reservations</small></div><div class="stat"><label>Reservations</label><strong>${db.reservations.filter(r=>r.status!=='Cancelled').length}</strong><small>Total active bookings</small></div><div class="stat"><label>Payments recorded</label><strong>${money(revenue)}</strong><small>All recorded payments</small></div></div><div class="grid2"><section class="panel"><h3>Quick Actions</h3><div class="actions"><button class="action" onclick="page('reservations');addReservation()"><b>＋</b>New Reservation</button><button class="action" onclick="page('guests');addGuest()"><b>♙</b>Register Guest</button><button class="action" onclick="page('rooms');addRoom()"><b>▣</b>Add Room</button><button class="action" onclick="page('billing');addPayment()"><b>₦</b>Record Payment</button></div></section><section class="panel"><h3>Hotel Status</h3><div class="status">✓ &nbsp; Your local workspace is ready</div><p class="muted">Last saved automatically on this device.</p><button class="btn" onclick="page('backup')">Open Backup & Restore</button></section></div><section class="panel"><h3>Recent Reservations</h3>${db.reservations.length?table(['Guest','Room','Check-in','Check-out','Status'],db.reservations.slice(-5).reverse().map(r=>`<tr><td>${esc(db.guests.find(g=>g.id==r.guestId)?.name||'Guest')}</td><td>${esc(db.rooms.find(x=>x.id==r.roomId)?.number||'—')}</td><td>${date(r.checkin)}</td><td>${date(r.checkout)}</td><td><span class="pill">${esc(r.status)}</span></td></tr>`).join('')):empty('No reservations yet. Add your first booking.')}</section>`}
+else if(p==='rooms'){el.innerHTML=`<h2 class="section-title">Rooms</h2><div class="toolbar"><span class="muted">Create and maintain your room list.</span><button class="btn gold" onclick="addRoom()">＋ Add Room</button></div><section class="panel">${db.rooms.length?table(['Room','Type','Rate / night','Status','Action'],db.rooms.map(r=>`<tr><td>${esc(r.number)}</td><td>${esc(r.type)}</td><td>${money(r.rate)}</td><td>${esc(r.status)}</td><td><button class="btn danger" onclick="removeItem('rooms',${r.id})">Delete</button></td></tr>`).join('')):empty('No rooms added yet.')}</section>`}
+else if(p==='guests'){el.innerHTML=`<h2 class="section-title">Guest Records</h2><div class="toolbar"><span class="muted">Guest contact directory.</span><button class="btn gold" onclick="addGuest()">＋ Register Guest</button></div><section class="panel">${db.guests.length?table(['Name','Phone','Email','Address','Action'],db.guests.map(g=>`<tr><td>${esc(g.name)}</td><td>${esc(g.phone)}</td><td>${esc(g.email)}</td><td>${esc(g.address)}</td><td><button class="btn danger" onclick="removeItem('guests',${g.id})">Delete</button></td></tr>`).join('')):empty('No guests registered yet.')}</section>`}
+else if(p==='reservations'){el.innerHTML=`<h2 class="section-title">Reservations</h2><div class="toolbar"><span class="muted">Bookings and stay dates.</span><button class="btn gold" onclick="addReservation()" ${!db.guests.length||!db.rooms.length?'disabled':''}>＋ New Reservation</button></div><section class="panel">${db.reservations.length?table(['Guest','Room','Check-in','Check-out','Total','Status','Action'],db.reservations.slice().reverse().map(r=>`<tr><td>${esc(db.guests.find(g=>g.id==r.guestId)?.name||'Guest')}</td><td>${esc(db.rooms.find(x=>x.id==r.roomId)?.number||'—')}</td><td>${date(r.checkin)}</td><td>${date(r.checkout)}</td><td>${money(r.total)}</td><td>${esc(r.status)}</td><td><button class="btn light" onclick="cancelReservation(${r.id})">Cancel</button></td></tr>`).join('')):empty('No reservations yet. Add rooms and guests first.')}</section>`}
+else if(p==='billing'){el.innerHTML=`<h2 class="section-title">Billing & Payments</h2><div class="toolbar"><span class="muted">Record payments against reservations.</span><button class="btn gold" onclick="addPayment()" ${!db.reservations.length?'disabled':''}>＋ Record Payment</button></div><section class="panel">${db.payments.length?table(['Date','Guest / Booking','Method','Amount'],db.payments.slice().reverse().map(x=>`<tr><td>${date(x.date)}</td><td>${esc(db.guests.find(g=>g.id==db.reservations.find(r=>r.id==x.reservationId)?.guestId)?.name||'Guest')}</td><td>${esc(x.method)}</td><td>${money(x.amount)}</td></tr>`).join('')):empty('No payments recorded yet.')}</section>`}
+else if(p==='expenses'){el.innerHTML=`<h2 class="section-title">Expenses</h2><div class="toolbar"><span class="muted">Track hotel operating costs.</span><button class="btn gold" onclick="addExpense()">＋ Add Expense</button></div><section class="panel">${db.expenses.length?table(['Date','Description','Category','Amount'],db.expenses.slice().reverse().map(x=>`<tr><td>${date(x.date)}</td><td>${esc(x.description)}</td><td>${esc(x.category)}</td><td>${money(x.amount)}</td></tr>`).join('')):empty('No expenses recorded yet.')}</section>`}
+else if(p==='staff'){el.innerHTML=`<h2 class="section-title">Staff</h2><div class="toolbar"><span class="muted">Basic staff directory.</span><button class="btn gold" onclick="addStaff()">＋ Add Staff</button></div><section class="panel">${db.staff.length?table(['Name','Role','Phone','Email'],db.staff.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.role)}</td><td>${esc(x.phone)}</td><td>${esc(x.email)}</td></tr>`).join('')):empty('No staff members added yet.')}</section>`}
+else if(p==='reports'){const rev=db.payments.reduce((s,x)=>s+Number(x.amount),0),cost=db.expenses.reduce((s,x)=>s+Number(x.amount),0);el.innerHTML=`<h2 class="section-title">Reports</h2><div class="stats"><div class="stat"><label>Recorded payments</label><strong>${money(rev)}</strong></div><div class="stat"><label>Recorded expenses</label><strong>${money(cost)}</strong></div><div class="stat"><label>Difference</label><strong>${money(rev-cost)}</strong></div><div class="stat"><label>Guest count</label><strong>${db.guests.length}</strong></div></div><section class="panel"><h3>Summary</h3><p>Reservations: <b>${db.reservations.length}</b></p><p>Rooms: <b>${db.rooms.length}</b></p><p>Payments recorded: <b>${db.payments.length}</b></p><p>Expenses recorded: <b>${db.expenses.length}</b></p><p class="muted">This is a simple summary of records entered in this browser. It is not an audited financial statement.</p></section>`}
+else if(p==='setup'){el.innerHTML=`<h2 class="section-title">Hotel Setup & Branding</h2><section class="panel"><h3>Your Hotel Identity</h3><form id="settingsForm"><div class="formgrid"><div class="field"><label>Hotel name</label><input name="name" value="${esc(db.hotel.name)}" required></div><div class="field"><label>Currency symbol</label><input name="currency" value="${esc(db.hotel.currency)}" required></div><div class="field"><label>Phone</label><input name="phone" value="${esc(db.hotel.phone)}"></div><div class="field"><label>Email</label><input name="email" type="email" value="${esc(db.hotel.email)}"></div></div><div class="field"><label>Hotel address</label><textarea name="address">${esc(db.hotel.address)}</textarea></div><div class="field"><label>Upload hotel logo (optional)</label><input id="hotelLogo" type="file" accept="image/*"></div><button class="btn gold">Save Hotel Details</button></form><p class="muted">The hotel name, currency and logo are stored in this browser on this device.</p></section>`;el.querySelector('#settingsForm').onsubmit=e=>{e.preventDefault();const v=Object.fromEntries(new FormData(e.target).entries());db.hotel={...db.hotel,...v};const file=el.querySelector('#hotelLogo').files[0];if(file){const reader=new FileReader();reader.onload=()=>{db.hotel.logo=reader.result;save();page('setup')};reader.readAsDataURL(file)}else{save();page('setup')}};}
+else if(p==='backup'){el.innerHTML=`<h2 class="section-title">Backup & Restore</h2><section class="panel"><h3>Protect your hotel records</h3><p>Download a copy of the data stored in this browser. Keep it somewhere safe.</p><button class="btn gold" onclick="downloadBackup()">⬇ Download Backup</button><hr style="border:0;border-top:1px solid var(--line);margin:20px 0"><div class="field"><label>Restore from a Hotel Manager Pro JSON backup</label><input type="file" id="restoreFile" accept=".json,application/json"></div><button class="btn" onclick="restoreBackup()">Restore Backup</button><p class="muted">Restoring replaces the current records on this device. Export a backup first.</p></section>`}}
+function removeItem(key,id){if(confirm('Delete this record?')){db[key]=db[key].filter(x=>x.id!==id);save();page(document.querySelector('.nav button.active')?.dataset.page||'dashboard')}}
+function cancelReservation(id){if(confirm('Cancel this reservation?')){const r=db.reservations.find(x=>x.id===id);if(r)r.status='Cancelled';save();page('reservations')}}
+function downloadBackup(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='hotel-manager-pro-backup.json';a.click();URL.revokeObjectURL(a.href)}
+function restoreBackup(){const file=document.getElementById('restoreFile').files[0];if(!file){alert('Choose a backup file first.');return}if(!confirm('This will replace all current hotel records. Continue?'))return;const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);if(!data.hotel||!Array.isArray(data.rooms)||!Array.isArray(data.guests))throw Error();db={...blank(),...data};save();page('dashboard');alert('Backup restored.')}catch(e){alert('That backup file is not valid.')}};reader.readAsText(file)}
+if(db.hotel.logo){document.getElementById('brandIcon').src=db.hotel.logo}save();page('dashboard');
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+</script></body></html>
