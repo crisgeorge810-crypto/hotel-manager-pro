@@ -1,0 +1,29 @@
+name: Install Hotel Manager Pro Replacement
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download repository
+        uses: actions/checkout@v4
+
+      - name: Extract replacement ZIP
+        run: |
+          mkdir -p extracted
+          unzip -o hotel-manager-pro-full-replacement.zip -d extracted
+          cp -a extracted/hotel-manager-pro-full/. .
+
+      - name: Save replacement files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html manifest.webmanifest service-worker.js hotel-icon-192.png hotel-icon-512.png hotel-icon-source.png
+          git commit -m "Install Hotel Manager Pro full replacement" || echo "No changes to commit"
+          git push
