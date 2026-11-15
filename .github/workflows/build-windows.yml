@@ -24,12 +24,13 @@ jobs:
         run: npm install
 
       - name: Build Windows installer and portable app
-        run: npm run dist
+        run: npx electron-builder --win nsis portable --publish never
 
       - name: Upload Windows EXE files
         uses: actions/upload-artifact@v4
         with:
           name: Hotel-Manager-Pro-Windows
-          path: release/*.exe
+          path: |
+            release/*.exe
           if-no-files-found: error
           retention-days: 30
