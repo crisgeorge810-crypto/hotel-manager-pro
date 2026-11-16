@@ -1,0 +1,31 @@
+
+name: Install Hotel Manager Pro Source Package
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract source package
+        run: |
+          test -f hotel-manager-pro-complete-source.zip
+          mkdir -p /tmp/hmp-source
+          unzip -o hotel-manager-pro-complete-source.zip -d /tmp/hmp-source
+          cp -a /tmp/hmp-source/Hotel-Manager-Pro-Complete-Source/. .
+
+      - name: Commit source files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html styles.css app.js manifest.webmanifest service-worker.js assets package.json main.cjs .github/workflows
+          git diff --cached --quiet || git commit -m "Install Hotel Manager Pro source foundation"
+          git push
