@@ -26,6 +26,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html styles.css app.js manifest.webmanifest service-worker.js assets package.json main.cjs .github/workflows
+          git add index.html styles.css app.js manifest.webmanifest service-worker.js assets package.json main.cjs
           git diff --cached --quiet || git commit -m "Install Hotel Manager Pro source foundation"
           git push
